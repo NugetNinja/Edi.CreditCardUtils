@@ -5,5 +5,10 @@
     <Company>edi.wang</Company>
     <Copyright>(C) 2020 edi.wang@outlook.com</Copyright>
     <Version>0.1-alpha</Version>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/EdiWang/Edi.CreditCardUtils</PackageProjectUrl>
+    <PackageTags>Credit Card, Visa, Master, Luhn, Mod10</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>.NET Standard Lib for Credit Card Number Operations</Description>
   </PropertyGroup>
 </Project>
