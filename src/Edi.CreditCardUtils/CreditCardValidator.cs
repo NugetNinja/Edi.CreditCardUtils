@@ -19,7 +19,7 @@ namespace Edi.CreditCardUtils
             }
 
             // Check card number length
-            if (cardNumber.Length != 16)
+            if (string.IsNullOrWhiteSpace(cardNumber) || cardNumber.Length != 16)
             {
                 return CreateResult(CreditCardNumberFormat.Invalid_BadStringFormat);
             }
@@ -38,6 +38,8 @@ namespace Edi.CreditCardUtils
                 return CreateResult(CreditCardNumberFormat.Invalid_LuhnFailure);
             }
 
+            if (null == formatValidators) return CreateResult(CreditCardNumberFormat.Valid_LuhnOnly);
+
             var creditCardBrandFormatValidators = formatValidators as ICreditCardBrandFormatValidator[] ?? formatValidators.ToArray();
             if (!creditCardBrandFormatValidators.Any())
             {
@@ -55,7 +57,7 @@ namespace Edi.CreditCardUtils
             }
 
             // No brand matches, but still a valid Luhn
-            return CreateResult(CreditCardNumberFormat.Invalid_LuhnFailure);
+            return CreateResult(CreditCardNumberFormat.Valid_LuhnOnly);
         }
 
         /// <summary>
