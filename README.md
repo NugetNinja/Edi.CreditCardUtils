@@ -10,19 +10,19 @@
 Powershell
 
 ```powershell
-Install-Package Edi.CreditCardUtils -Version 0.1.0-alpha
+Install-Package Edi.CreditCardUtils -Version 0.2.0-alpha
 ```
 
 .NET Core CLI
 ```bash
-dotnet add package Edi.CreditCardUtils --version 0.1.0-alpha
+dotnet add package Edi.CreditCardUtils --version 0.2.0-alpha
 ```
 
 ### Validate Credit Card Number
 
 The ```CreditCardValidator``` does 3 things:
 
-1. Check card number format (is 16 digits)
+1. Check card number format (is 14-16 digits)
 2. Perform Luhn check (Mod10)
 3. (Optional) Test with brand regex (Visa / Master or customized provider)
 
@@ -58,10 +58,10 @@ Assert.IsTrue(result.CreditCardNumberFormat == CreditCardNumberFormat.Valid_Luhn
 Validate a Visa card with 2 card brands
 
 ```csharp
-var result = CreditCardValidator.ValidCardNumber("4012888888881881", new List<ICreditCardBrandFormatValidator>
+var result = CreditCardValidator.ValidCardNumber("4012888888881881", new IBINFormatValidator[]
 {
-    new VisaFormatValidator(),
-    new MasterCardFormatValidator()
+    new VisaBINValidator(),
+    new MasterCardBINValidator()
 });
-Assert.IsTrue(result.CreditCardNumberFormat == CreditCardNumberFormat.Valid_BrandTest && result.CardType == "Visa");
+Assert.IsTrue(result.CreditCardNumberFormat == CreditCardNumberFormat.Valid_BINTest && result.CardType == "Visa");
 ```

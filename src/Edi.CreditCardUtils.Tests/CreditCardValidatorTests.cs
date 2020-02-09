@@ -30,21 +30,21 @@ namespace Edi.CreditCardUtils.Tests
         public void TestInvalidCardNumberFormat(string cardNumber)
         {
             var result = CreditCardValidator.ValidCardNumber(cardNumber);
-            Assert.IsTrue(result.CreditCardNumberFormat == CreditCardNumberFormat.Invalid_BadStringFormat);
+            Assert.IsTrue(result.CardNumberFormat == CardNumberFormat.Invalid_BadStringFormat);
         }
 
         [Test]
         public void TestLuhnMod10Failure()
         {
             var result = CreditCardValidator.ValidCardNumber("9962514040073500");
-            Assert.IsTrue(result.CreditCardNumberFormat == CreditCardNumberFormat.Invalid_LuhnFailure);
+            Assert.IsTrue(result.CardNumberFormat == CardNumberFormat.Invalid_LuhnFailure);
         }
 
         [Test]
         public void TestLuhnMod10Success_NoBrand()
         {
             var result = CreditCardValidator.ValidCardNumber("6011000990139424");
-            Assert.IsTrue(result.CreditCardNumberFormat == CreditCardNumberFormat.Valid_LuhnOnly);
+            Assert.IsTrue(result.CardNumberFormat == CardNumberFormat.Valid_LuhnOnly);
         }
 
         [Test]
@@ -54,7 +54,7 @@ namespace Edi.CreditCardUtils.Tests
             {
                 new MasterCardBINValidator()
             });
-            Assert.IsTrue(result.CreditCardNumberFormat == CreditCardNumberFormat.Valid_LuhnOnly);
+            Assert.IsTrue(result.CardNumberFormat == CardNumberFormat.Valid_LuhnOnly);
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace Edi.CreditCardUtils.Tests
                 new VisaBINValidator(),
                 new MasterCardBINValidator()
             });
-            Assert.IsTrue(result.CreditCardNumberFormat == CreditCardNumberFormat.Valid_BrandTest && result.CardType == "Visa");
+            Assert.IsTrue(result.CardNumberFormat == CardNumberFormat.Valid_BINTest && result.CardType == "Visa");
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace Edi.CreditCardUtils.Tests
                 new VisaBINValidator(),
                 new MasterCardBINValidator()
             });
-            Assert.IsTrue(result.CreditCardNumberFormat == CreditCardNumberFormat.Valid_BrandTest && result.CardType == "MasterCard");
+            Assert.IsTrue(result.CardNumberFormat == CardNumberFormat.Valid_BINTest && result.CardType == "MasterCard");
         }
     }
 }

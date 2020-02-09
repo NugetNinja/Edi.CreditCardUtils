@@ -19,11 +19,11 @@ namespace Edi.CreditCardUtils
         public static CreditCardValidationResult ValidCardNumber(
             string cardNumber, IBINFormatValidator[] formatValidators = null)
         {
-            static CreditCardValidationResult CreateResult(CreditCardNumberFormat format, string cardType = null)
+            static CreditCardValidationResult CreateResult(CardNumberFormat format, string cardType = null)
             {
                 return new CreditCardValidationResult
                 {
-                    CreditCardNumberFormat = format,
+                    CardNumberFormat = format,
                     CardType = cardType
                 };
             }
@@ -31,28 +31,28 @@ namespace Edi.CreditCardUtils
             // Check card number length
             if (string.IsNullOrWhiteSpace(cardNumber) || cardNumber.Length < 14 || cardNumber.Length > 16)
             {
-                return CreateResult(CreditCardNumberFormat.Invalid_BadStringFormat);
+                return CreateResult(CardNumberFormat.Invalid_BadStringFormat);
             }
 
             // Check string is all numbers
             var isMatch = Regex.IsMatch(cardNumber, @"^\d*$");
             if (!isMatch)
             {
-                return CreateResult(CreditCardNumberFormat.Invalid_BadStringFormat);
+                return CreateResult(CardNumberFormat.Invalid_BadStringFormat);
             }
 
             // Try Luhn Test
             var digits = GetDigitsArrayFromCardNumber(cardNumber);
             if (!IsLuhnValid(digits))
             {
-                return CreateResult(CreditCardNumberFormat.Invalid_LuhnFailure);
+                return CreateResult(CardNumberFormat.Invalid_LuhnFailure);
             }
 
-            if (null == formatValidators) return CreateResult(CreditCardNumberFormat.Valid_LuhnOnly);
+            if (null == formatValidators) return CreateResult(CardNumberFormat.Valid_LuhnOnly);
 
             if (!formatValidators.Any())
             {
-                return CreateResult(CreditCardNumberFormat.Valid_LuhnOnly);
+                return CreateResult(CardNumberFormat.Valid_LuhnOnly);
             }
 
             // Test against brand validator
@@ -61,12 +61,12 @@ namespace Edi.CreditCardUtils
                 var brandMatch = Regex.IsMatch(cardNumber, validator.BrandRegEx);
                 if (brandMatch)
                 {
-                    return CreateResult(CreditCardNumberFormat.Valid_BrandTest, validator.BrandName);
+                    return CreateResult(CardNumberFormat.Valid_BINTest, validator.BrandName);
                 }
             }
 
             // No brand matches, but still a valid Luhn
-            return CreateResult(CreditCardNumberFormat.Valid_LuhnOnly);
+            return CreateResult(CardNumberFormat.Valid_LuhnOnly);
         }
 
         /// <summary>
