@@ -8,7 +8,7 @@ namespace Edi.CreditCardUtils
     public class CreditCardValidator
     {
         public static CreditCardValidationResult ValidCardNumber(
-            string cardNumber, IEnumerable<IBINFormatValidator> formatValidators = null)
+            string cardNumber, IBINFormatValidator[] formatValidators = null)
         {
             CreditCardValidationResult CreateResult(CreditCardNumberFormat format, string cardType = null)
             {
@@ -41,14 +41,13 @@ namespace Edi.CreditCardUtils
 
             if (null == formatValidators) return CreateResult(CreditCardNumberFormat.Valid_LuhnOnly);
 
-            var creditCardBrandFormatValidators = formatValidators as IBINFormatValidator[] ?? formatValidators.ToArray();
-            if (!creditCardBrandFormatValidators.Any())
+            if (!formatValidators.Any())
             {
                 return CreateResult(CreditCardNumberFormat.Valid_LuhnOnly);
             }
 
             // Test against brand validator
-            foreach (var validator in creditCardBrandFormatValidators)
+            foreach (var validator in formatValidators)
             {
                 var brandMatch = Regex.IsMatch(cardNumber, validator.BrandRegEx);
                 if (brandMatch)

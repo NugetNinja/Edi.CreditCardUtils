@@ -50,7 +50,7 @@ namespace Edi.CreditCardUtils.Tests
         [Test]
         public void TestLuhnMod10Success_UnknownBrand()
         {
-            var result = CreditCardValidator.ValidCardNumber("4012888888881881", new List<IBINFormatValidator>
+            var result = CreditCardValidator.ValidCardNumber("4012888888881881", new IBINFormatValidator[]
             {
                 new MasterCardBINValidator()
             });
@@ -60,7 +60,7 @@ namespace Edi.CreditCardUtils.Tests
         [Test]
         public void TestValidVisa()
         {
-            var result = CreditCardValidator.ValidCardNumber("4012888888881881", new List<IBINFormatValidator>
+            var result = CreditCardValidator.ValidCardNumber("4012888888881881", new IBINFormatValidator[]
             {
                 new VisaBINValidator(),
                 new MasterCardBINValidator()
@@ -71,7 +71,7 @@ namespace Edi.CreditCardUtils.Tests
         [Test]
         public void TestValidMasterCard()
         {
-            var result = CreditCardValidator.ValidCardNumber("5105105105105100", new List<IBINFormatValidator>
+            var result = CreditCardValidator.ValidCardNumber("5105105105105100", new IBINFormatValidator[]
             {
                 new VisaBINValidator(),
                 new MasterCardBINValidator()
