@@ -1,6 +1,6 @@
-﻿namespace Edi.CreditCardUtils
+﻿namespace Edi.CreditCardUtils.BINValidators
 {
-    public class MasterCardFormatValidator : ICreditCardBrandFormatValidator
+    public class MasterCardBINValidator : IBINFormatValidator
     {
         public string BrandName => "MasterCard";
         public string BrandRegEx =>

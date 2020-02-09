@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Edi.CreditCardUtils.BINValidators;
 
 namespace Edi.CreditCardUtils
 {
     public class CreditCardValidator
     {
         public static CreditCardValidationResult ValidCardNumber(
-            string cardNumber, IEnumerable<ICreditCardBrandFormatValidator> formatValidators = null)
+            string cardNumber, IEnumerable<IBINFormatValidator> formatValidators = null)
         {
             CreditCardValidationResult CreateResult(CreditCardNumberFormat format, string cardType = null)
             {
@@ -40,7 +41,7 @@ namespace Edi.CreditCardUtils
 
             if (null == formatValidators) return CreateResult(CreditCardNumberFormat.Valid_LuhnOnly);
 
-            var creditCardBrandFormatValidators = formatValidators as ICreditCardBrandFormatValidator[] ?? formatValidators.ToArray();
+            var creditCardBrandFormatValidators = formatValidators as IBINFormatValidator[] ?? formatValidators.ToArray();
             if (!creditCardBrandFormatValidators.Any())
             {
                 return CreateResult(CreditCardNumberFormat.Valid_LuhnOnly);
