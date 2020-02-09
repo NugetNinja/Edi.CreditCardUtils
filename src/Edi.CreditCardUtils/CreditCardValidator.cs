@@ -7,10 +7,19 @@ namespace Edi.CreditCardUtils
 {
     public class CreditCardValidator
     {
+        /// <summary>
+        /// Validate a credit card number according:
+        /// 1. Number format (14-16 digits)
+        /// 2. Luhn test
+        /// 3. Specific BIN formats (optional)
+        /// </summary>
+        /// <param name="cardNumber">Card number</param>
+        /// <param name="formatValidators">BIN format validators</param>
+        /// <returns></returns>
         public static CreditCardValidationResult ValidCardNumber(
             string cardNumber, IBINFormatValidator[] formatValidators = null)
         {
-            CreditCardValidationResult CreateResult(CreditCardNumberFormat format, string cardType = null)
+            static CreditCardValidationResult CreateResult(CreditCardNumberFormat format, string cardType = null)
             {
                 return new CreditCardValidationResult
                 {
@@ -20,7 +29,7 @@ namespace Edi.CreditCardUtils
             }
 
             // Check card number length
-            if (string.IsNullOrWhiteSpace(cardNumber) || cardNumber.Length != 16)
+            if (string.IsNullOrWhiteSpace(cardNumber) || cardNumber.Length < 14 || cardNumber.Length > 16)
             {
                 return CreateResult(CreditCardNumberFormat.Invalid_BadStringFormat);
             }
