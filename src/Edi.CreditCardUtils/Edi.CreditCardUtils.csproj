@@ -4,7 +4,7 @@
     <Authors>Edi Wang</Authors>
     <Company>edi.wang</Company>
     <Copyright>(C) 2020 edi.wang@outlook.com</Copyright>
-    <Version>0.2-alpha</Version>
+    <Version>0.3-alpha</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/EdiWang/Edi.CreditCardUtils</PackageProjectUrl>
     <PackageTags>Credit Card, Visa, Master, Luhn, Mod10</PackageTags>

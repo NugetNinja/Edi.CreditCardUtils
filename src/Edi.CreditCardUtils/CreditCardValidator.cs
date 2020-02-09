@@ -17,7 +17,7 @@ namespace Edi.CreditCardUtils
         /// <param name="formatValidators">BIN format validators</param>
         /// <returns></returns>
         public static CreditCardValidationResult ValidCardNumber(
-            string cardNumber, IBINFormatValidator[] formatValidators = null)
+            string cardNumber, ICardTypeValidator[] formatValidators = null)
         {
             static CreditCardValidationResult CreateResult(CardNumberFormat format, string[] cardTypes = null)
             {
@@ -48,22 +48,29 @@ namespace Edi.CreditCardUtils
                 return CreateResult(CardNumberFormat.Invalid_LuhnFailure);
             }
 
-            if (null == formatValidators) return CreateResult(CardNumberFormat.Valid_LuhnOnly);
-
-            if (!formatValidators.Any())
+            // Test against known types
+            var matchedCardTypes = new List<string>();
+            foreach (var (key, value) in KnownCardTypes.Default)
             {
-                return CreateResult(CardNumberFormat.Valid_LuhnOnly);
+                if (Regex.IsMatch(cardNumber, value))
+                {
+                    matchedCardTypes.Add(key);
+                }
             }
 
-            // Test against brand validator
-            var matchedBINTypes = from validator in formatValidators
-                                  let brandMatch = Regex.IsMatch(cardNumber, validator.BrandRegEx)
-                                  where brandMatch
-                                  select validator.BrandName;
+            // Test against type validator
+            if (null != formatValidators)
+            {
+                var more = from validator in formatValidators
+                           let brandMatch = Regex.IsMatch(cardNumber, validator.RegEx)
+                           where brandMatch
+                           select validator.Name;
 
-            var binTypes = matchedBINTypes as string[] ?? matchedBINTypes.ToArray();
-            return binTypes.Any() ? 
-                CreateResult(CardNumberFormat.Valid_BINTest, binTypes.ToArray()) : 
+                matchedCardTypes.AddRange(more);
+            }
+
+            return matchedCardTypes.Any() ? 
+                CreateResult(CardNumberFormat.Valid_BINTest, matchedCardTypes.ToArray()) : 
                 CreateResult(CardNumberFormat.Valid_LuhnOnly);
         }
 

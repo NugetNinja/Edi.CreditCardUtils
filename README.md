@@ -10,21 +10,22 @@
 Powershell
 
 ```powershell
-Install-Package Edi.CreditCardUtils -Version 0.2.0-alpha
+Install-Package Edi.CreditCardUtils -Version 0.3.0-alpha
 ```
 
 .NET Core CLI
 ```bash
-dotnet add package Edi.CreditCardUtils --version 0.2.0-alpha
+dotnet add package Edi.CreditCardUtils --version 0.3.0-alpha
 ```
 
 ### Validate Credit Card Number
 
-The ```CreditCardValidator``` does 3 things:
+The ```CreditCardValidator``` performs 4 steps:
 
 1. Check card number format (is 14-19 digits)
 2. Perform Luhn check (Mod10)
-3. (Optional) Test with brand regex (Visa / Master or customized provider)
+3. Test against known card type regex (Visa / Master etc..)
+4. Optional: Test against customized regex
 
 Return Type:
 
@@ -55,15 +56,29 @@ var result = CreditCardValidator.ValidCardNumber("6011000990139424");
 Assert.IsTrue(result.CreditCardNumberFormat == CreditCardNumberFormat.Valid_LuhnOnly);
 ```
 
-Validate a Visa card with BIN validators
+Validate a Visa card
 
 ```csharp
-var result = CreditCardValidator.ValidCardNumber("4012888888881881", new IBINFormatValidator[]
-{
-    new VisaBINValidator(),
-    new MasterCardBINValidator(),
-    new AmexCardBINValidator(),
-    new UnionPayCardValidator()
-});
+var result = CreditCardValidator.ValidCardNumber("4012888888881881");
 Assert.IsTrue(result.CardNumberFormat == CardNumberFormat.Valid_BINTest && result.CardTypes.Contains("Visa"));
+```
+
+Customized card validator
+
+```csharp
+public class WellsFargoBankValidator : ICardTypeValidator
+{
+    public string Name => "Wells Fargo Bank";
+    public string RegEx => @"^(485246)\d{10}$";
+}
+
+[Test]
+public void TestCardTypeValidator()
+{
+    var result = CreditCardValidator.ValidCardNumber("4852461030260066", new ICardTypeValidator[]
+    {
+        new WellsFargoBankValidator()
+    });
+    Assert.IsTrue(result.CardNumberFormat == CardNumberFormat.Valid_BINTest && result.CardTypes.Contains("Wells Fargo Bank"));
+}
 ```

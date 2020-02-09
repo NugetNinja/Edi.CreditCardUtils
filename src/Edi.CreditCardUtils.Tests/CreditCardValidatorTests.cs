@@ -42,44 +42,40 @@ namespace Edi.CreditCardUtils.Tests
         }
 
         [Test]
-        public void TestLuhnMod10Success_NoBrand()
+        public void TestLuhnMod10Success()
         {
-            var result = CreditCardValidator.ValidCardNumber("6011000990139424");
-            Assert.IsTrue(result.CardNumberFormat == CardNumberFormat.Valid_LuhnOnly);
-        }
-
-        [Test]
-        public void TestLuhnMod10Success_UnknownBrand()
-        {
-            var result = CreditCardValidator.ValidCardNumber("4012888888881881", new IBINFormatValidator[]
-            {
-                new MasterCardBINValidator()
-            });
+            var result = CreditCardValidator.ValidCardNumber("214916279426729");
             Assert.IsTrue(result.CardNumberFormat == CardNumberFormat.Valid_LuhnOnly);
         }
 
         [Test]
         public void TestValidVisa()
         {
-            var result = CreditCardValidator.ValidCardNumber("4012888888881881", new IBINFormatValidator[]
-            {
-                new VisaBINValidator(),
-                new MasterCardBINValidator(),
-                new AmexCardBINValidator(),
-                new UnionPayCardValidator()
-            });
+            var result = CreditCardValidator.ValidCardNumber("4012888888881881");
             Assert.IsTrue(result.CardNumberFormat == CardNumberFormat.Valid_BINTest && result.CardTypes.Contains("Visa"));
         }
 
         [Test]
         public void TestValidMasterCard()
         {
-            var result = CreditCardValidator.ValidCardNumber("5105105105105100", new IBINFormatValidator[]
-            {
-                new VisaBINValidator(),
-                new MasterCardBINValidator()
-            });
+            var result = CreditCardValidator.ValidCardNumber("5105105105105100");
             Assert.IsTrue(result.CardNumberFormat == CardNumberFormat.Valid_BINTest && result.CardTypes.Contains("MasterCard"));
+        }
+
+        public class WellsFargoBankValidator : ICardTypeValidator
+        {
+            public string Name => "Wells Fargo Bank";
+            public string RegEx => @"^(485246)\d{10}$";
+        }
+
+        [Test]
+        public void TestCardTypeValidator()
+        {
+            var result = CreditCardValidator.ValidCardNumber("4852461030260066", new ICardTypeValidator[]
+            {
+                new WellsFargoBankValidator()
+            });
+            Assert.IsTrue(result.CardNumberFormat == CardNumberFormat.Valid_BINTest && result.CardTypes.Contains("Wells Fargo Bank"));
         }
     }
 }
