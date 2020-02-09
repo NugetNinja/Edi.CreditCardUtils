@@ -31,15 +31,15 @@ Return Type:
 ```csharp
 public class CreditCardValidationResult
 {
-    public CreditCardNumberFormat CreditCardNumberFormat { get; set; }
-    public string CardType { get; set; }
+    public CardNumberFormat CardNumberFormat { get; set; }
+    public string[] CardTypes { get; set; }
 }
 
-public enum CreditCardNumberFormat
+public enum CardNumberFormat
 {
     None = 0,
     Valid_LuhnOnly = 100,
-    Valid_BrandTest = 101,
+    Valid_BINTest = 101,
     Invalid_BadStringFormat = 200,
     Invalid_LuhnFailure = 201
 }
@@ -55,13 +55,15 @@ var result = CreditCardValidator.ValidCardNumber("6011000990139424");
 Assert.IsTrue(result.CreditCardNumberFormat == CreditCardNumberFormat.Valid_LuhnOnly);
 ```
 
-Validate a Visa card with 2 card brands
+Validate a Visa card with BIN validators
 
 ```csharp
 var result = CreditCardValidator.ValidCardNumber("4012888888881881", new IBINFormatValidator[]
 {
     new VisaBINValidator(),
-    new MasterCardBINValidator()
+    new MasterCardBINValidator(),
+    new AmexCardBINValidator(),
+    new UnionPayCardValidator()
 });
-Assert.IsTrue(result.CreditCardNumberFormat == CreditCardNumberFormat.Valid_BINTest && result.CardType == "Visa");
+Assert.IsTrue(result.CardNumberFormat == CardNumberFormat.Valid_BINTest && result.CardTypes.Contains("Visa"));
 ```
