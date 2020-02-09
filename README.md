@@ -22,7 +22,7 @@ dotnet add package Edi.CreditCardUtils --version 0.2.0-alpha
 
 The ```CreditCardValidator``` does 3 things:
 
-1. Check card number format (is 14-16 digits)
+1. Check card number format (is 14-19 digits)
 2. Perform Luhn check (Mod10)
 3. (Optional) Test with brand regex (Visa / Master or customized provider)
 

@@ -29,7 +29,7 @@ namespace Edi.CreditCardUtils
             }
 
             // Check card number length
-            if (string.IsNullOrWhiteSpace(cardNumber) || cardNumber.Length < 14 || cardNumber.Length > 16)
+            if (string.IsNullOrWhiteSpace(cardNumber) || cardNumber.Length < 14 || cardNumber.Length > 19)
             {
                 return CreateResult(CardNumberFormat.Invalid_BadStringFormat);
             }
