@@ -3,6 +3,6 @@
     public class CreditCardValidationResult
     {
         public CardNumberFormat CardNumberFormat { get; set; }
-        public string CardType { get; set; }
+        public string[] CardTypes { get; set; }
     }
 }

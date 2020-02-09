@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Edi.CreditCardUtils.BINValidators;
 using NUnit.Framework;
 
@@ -63,9 +64,11 @@ namespace Edi.CreditCardUtils.Tests
             var result = CreditCardValidator.ValidCardNumber("4012888888881881", new IBINFormatValidator[]
             {
                 new VisaBINValidator(),
-                new MasterCardBINValidator()
+                new MasterCardBINValidator(),
+                new AmexCardBINValidator(),
+                new UnionPayCardValidator()
             });
-            Assert.IsTrue(result.CardNumberFormat == CardNumberFormat.Valid_BINTest && result.CardType == "Visa");
+            Assert.IsTrue(result.CardNumberFormat == CardNumberFormat.Valid_BINTest && result.CardTypes.Contains("Visa"));
         }
 
         [Test]
@@ -76,7 +79,7 @@ namespace Edi.CreditCardUtils.Tests
                 new VisaBINValidator(),
                 new MasterCardBINValidator()
             });
-            Assert.IsTrue(result.CardNumberFormat == CardNumberFormat.Valid_BINTest && result.CardType == "MasterCard");
+            Assert.IsTrue(result.CardNumberFormat == CardNumberFormat.Valid_BINTest && result.CardTypes.Contains("MasterCard"));
         }
     }
 }

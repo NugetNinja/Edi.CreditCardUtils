@@ -19,12 +19,12 @@ namespace Edi.CreditCardUtils
         public static CreditCardValidationResult ValidCardNumber(
             string cardNumber, IBINFormatValidator[] formatValidators = null)
         {
-            static CreditCardValidationResult CreateResult(CardNumberFormat format, string cardType = null)
+            static CreditCardValidationResult CreateResult(CardNumberFormat format, string[] cardTypes = null)
             {
                 return new CreditCardValidationResult
                 {
                     CardNumberFormat = format,
-                    CardType = cardType
+                    CardTypes = cardTypes
                 };
             }
 
@@ -56,17 +56,15 @@ namespace Edi.CreditCardUtils
             }
 
             // Test against brand validator
-            foreach (var validator in formatValidators)
-            {
-                var brandMatch = Regex.IsMatch(cardNumber, validator.BrandRegEx);
-                if (brandMatch)
-                {
-                    return CreateResult(CardNumberFormat.Valid_BINTest, validator.BrandName);
-                }
-            }
+            var matchedBINTypes = from validator in formatValidators
+                                  let brandMatch = Regex.IsMatch(cardNumber, validator.BrandRegEx)
+                                  where brandMatch
+                                  select validator.BrandName;
 
-            // No brand matches, but still a valid Luhn
-            return CreateResult(CardNumberFormat.Valid_LuhnOnly);
+            var binTypes = matchedBINTypes as string[] ?? matchedBINTypes.ToArray();
+            return binTypes.Any() ? 
+                CreateResult(CardNumberFormat.Valid_BINTest, binTypes.ToArray()) : 
+                CreateResult(CardNumberFormat.Valid_LuhnOnly);
         }
 
         /// <summary>
