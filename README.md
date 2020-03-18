@@ -1,6 +1,8 @@
 # Edi.CreditCardUtils
 .NET Standard Lib for Credit Card Number Operations
 
+![.NET Core](https://github.com/EdiWang/Edi.CreditCardUtils/workflows/.NET%20Core/badge.svg)
+
 > This project is still in early development, it comes with !!!ABSOLUTELY NO WARRANT!!! Please review the code before using it in your project.
 
 ## Usage
