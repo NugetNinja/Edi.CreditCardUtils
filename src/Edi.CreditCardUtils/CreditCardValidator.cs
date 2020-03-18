@@ -103,7 +103,7 @@ namespace Edi.CreditCardUtils
 
         public static int[] GetDigitsArrayFromCardNumber(string cardNumber)
         {
-            var digits = cardNumber.Select(p => int.Parse(p.ToString())).ToArray();
+            var digits = cardNumber.Select(p => p - '0').ToArray();
             return digits;
         }
     }
