@@ -20,7 +20,7 @@ jobs:
     - name: Build with dotnet
       run: |
         dotnet build --configuration Release
-        working-directory: ./src
+      working-directory: ./src
     - name: Run unit tests
       run: dotnet test --configuration Release
       working-directory: ./src
