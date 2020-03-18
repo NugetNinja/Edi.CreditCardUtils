@@ -19,5 +19,8 @@ jobs:
         dotnet-version: 3.1.102
     - name: Build with dotnet
       run: |
-        dotnet build "src/*.csproj" --configuration Release
-        dotnet test "src/*[Tt]ests/*.csproj" --configuration Release
+        dotnet build --configuration Release
+        working-directory: ./src
+    - name: Run unit tests
+      run: dotnet test --configuration Release
+      working-directory: ./src
