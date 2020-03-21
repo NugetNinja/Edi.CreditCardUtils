@@ -3,7 +3,7 @@
 
 ![.NET Core](https://github.com/EdiWang/Edi.CreditCardUtils/workflows/.NET%20Core/badge.svg)
 
-> This project is still in early development, it comes with !!!ABSOLUTELY NO WARRANT!!! Please review the code before using it in your project.
+> This project is still in early development.
 
 ## Usage
 
@@ -12,12 +12,12 @@
 Powershell
 
 ```powershell
-Install-Package Edi.CreditCardUtils -Version 0.3.0-alpha
+Install-Package Edi.CreditCardUtils -Version 0.4.0-alpha
 ```
 
 .NET Core CLI
 ```bash
-dotnet add package Edi.CreditCardUtils --version 0.3.0-alpha
+dotnet add package Edi.CreditCardUtils --version 0.4.0-alpha
 ```
 
 ### Validate Credit Card Number
@@ -83,4 +83,12 @@ public void TestCardTypeValidator()
     });
     Assert.IsTrue(result.CardNumberFormat == CardNumberFormat.Valid_BINTest && result.CardTypes.Contains("Wells Fargo Bank"));
 }
+```
+
+### Generate Card Number
+
+```csharp
+var bin = "485246";
+int length = 16;
+var cn = CreditCardGenerator.GenerateCardNumber(bin, length);
 ```
