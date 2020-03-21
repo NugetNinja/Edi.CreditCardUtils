@@ -42,8 +42,8 @@ namespace Edi.CreditCardUtils
             }
 
             // Try Luhn Test
-            var digits = GetDigitsArrayFromCardNumber(cardNumber);
-            if (!IsLuhnValid(digits))
+            var digits = Luhn.GetDigitsArrayFromCardNumber(cardNumber);
+            if (!Luhn.IsLuhnValid(digits))
             {
                 return CreateResult(CardNumberFormat.Invalid_LuhnFailure);
             }
@@ -72,39 +72,6 @@ namespace Edi.CreditCardUtils
             return matchedCardTypes.Any() ? 
                 CreateResult(CardNumberFormat.Valid_BINTest, matchedCardTypes.ToArray()) : 
                 CreateResult(CardNumberFormat.Valid_LuhnOnly);
-        }
-
-        /// <summary>
-        /// Check credit card numbers agaist Luhn Algorithm
-        /// https://en.wikipedia.org/wiki/Luhn_algorithm
-        /// </summary>
-        /// <param name="digits">Credit card numbers</param>
-        /// <returns>Is valid Luhn</returns>
-        public static bool IsLuhnValid(int[] digits)
-        {
-            var sum = 0;
-            var alt = false;
-            for (var i = digits.Length - 1; i >= 0; i--)
-            {
-                if (alt)
-                {
-                    digits[i] *= 2;
-                    if (digits[i] > 9)
-                    {
-                        digits[i] -= 9;
-                    }
-                }
-                sum += digits[i];
-                alt = !alt;
-            }
-
-            return sum % 10 == 0;
-        }
-
-        public static int[] GetDigitsArrayFromCardNumber(string cardNumber)
-        {
-            var digits = cardNumber.Select(p => p - '0').ToArray();
-            return digits;
         }
     }
 }
