@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/Edi.CreditCardUtils.Tests/bin/Debug/netcoreapp3.1/Edi.CreditCardUtils.Tests.dll",
+            "program": "${workspaceFolder}/src/Edi.CreditCardUtils.Tests/bin/Debug/net5.0/Edi.CreditCardUtils.Tests.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Edi.CreditCardUtils.Tests",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console

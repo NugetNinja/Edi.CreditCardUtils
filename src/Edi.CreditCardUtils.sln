@@ -5,12 +5,13 @@ VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Edi.CreditCardUtils", "Edi.CreditCardUtils\Edi.CreditCardUtils.csproj", "{18A67232-18E4-4E34-8592-34DF56DC7CE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edi.CreditCardUtils.Tests", "Edi.CreditCardUtils.Tests\Edi.CreditCardUtils.Tests.csproj", "{01D43D5B-E1EE-479D-830E-390335458754}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Edi.CreditCardUtils.Tests", "Edi.CreditCardUtils.Tests\Edi.CreditCardUtils.Tests.csproj", "{01D43D5B-E1EE-479D-830E-390335458754}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7E25D905-EAC8-4604-8A80-568C9C42519F}"
 	ProjectSection(SolutionItems) = preProject
 		..\.gitattributes = ..\.gitattributes
 		..\.gitignore = ..\.gitignore
+		..\.github\workflows\dotnetcore.yml = ..\.github\workflows\dotnetcore.yml
 		..\LICENSE = ..\LICENSE
 		..\README.md = ..\README.md
 	EndProjectSection

@@ -6,6 +6,7 @@ using NUnit.Framework;
 
 namespace Edi.CreditCardUtils.Tests
 {
+    [TestFixture]
     public class CreditCardGeneratorTests
     {
         [Test]

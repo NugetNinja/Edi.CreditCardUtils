@@ -5,13 +5,9 @@ using NUnit.Framework;
 
 namespace Edi.CreditCardUtils.Tests
 {
+    [TestFixture]
     public class Tests
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         public static IEnumerable<TestCaseData> InvalidCardNumbersData
         {
             get
