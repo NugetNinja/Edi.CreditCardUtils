@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;net6.0</TargetFrameworks>
     <Authors>Edi Wang</Authors>
@@ -10,6 +10,5 @@
     <PackageTags>Credit Card, Visa, Master, Luhn, Mod10</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>.NET Lib for Credit Card Number Operations</Description>
-    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 </Project>
